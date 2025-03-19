@@ -11,6 +11,7 @@ import (
 
 var (
 	ErrBilinearSrcImageTooSmall = errors.New("source image is too small: width < 2 or height < 2")
+	ErrBicubicSrcImageTooSmall  = errors.New("source image is too small: width < 4 or height < 4")
 )
 
 type interpolator interface {
@@ -263,7 +264,7 @@ func (bc *bicubic) interpolate(src, dst *image.RGBA) error {
 	srcW := src.Bounds().Dx()
 	srcH := src.Bounds().Dy()
 	if srcW < 4 || srcH < 4 {
-		return ErrBilinearSrcImageTooSmall
+		return ErrBicubicSrcImageTooSmall
 	}
 	dstW := dst.Bounds().Dx()
 	dstH := dst.Bounds().Dy()

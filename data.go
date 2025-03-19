@@ -15,12 +15,16 @@ var (
 	ErrInvalidFormat   = errors.New("invalid format: only jpg/jpeg and png formats are supported")
 )
 
+// Data is a struct that contains the name and format of the image, and the *image.RGBA representation of the image itself.
 type Data struct {
 	Name   string
 	Format string
 	Image  *image.RGBA
 }
 
+// NewData creates a new Data instance from a file name and a reader.
+// Only jpg/jpeg and png formats are supported.
+// It also creates a new *image.RGBA instance from the reader.
 func NewData(fileName string, r io.ReadCloser) (*Data, error) {
 	defer r.Close()
 

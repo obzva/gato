@@ -17,17 +17,20 @@ var (
 	ErrInvalidInterpolation = errors.New("invalid interpolation method: only nearest-neighbor, bilinear, and bicubic are available")
 )
 
+// Instruction is a struct that contains the instruction for the processor.
 type Instruction struct {
 	Width         int
 	Height        int
 	Interpolation string
 }
 
+// Processor is a struct that contains the instruction and related helpers
 type Processor struct {
 	Instruction
-	interpolator interpolator
+	Interpolator interpolator
 }
 
+// return the processed image following the instructions
 func (p *Processor) Process(d *Data) (*image.RGBA, error) {
 	// setting dimensions
 	w := p.Width
@@ -48,7 +51,7 @@ func (p *Processor) Process(d *Data) (*image.RGBA, error) {
 	rect := image.Rect(0, 0, w, h)
 	rgba := image.NewRGBA(rect)
 
-	err := p.interpolator.interpolate(d.Image, rgba)
+	err := p.Interpolator.interpolate(d.Image, rgba)
 	if err != nil {
 		return nil, err
 	}
@@ -56,6 +59,9 @@ func (p *Processor) Process(d *Data) (*image.RGBA, error) {
 	return rgba, nil
 }
 
+// NewProcessor creates a new Processor instance from an Instruction instance.
+// If the Instruction.Width and Instruction.Height are not set, it returns an error ErrInvalidDimension.
+// It also creates a new Interpolator instance from the Interpolation instruction. If Instruction.Interpolation is not set, it defaults to Bilinear.
 func NewProcessor(i Instruction) (*Processor, error) {
 	if i.Width == 0 && i.Height == 0 {
 		return nil, ErrInvalidDimension
@@ -74,6 +80,6 @@ func NewProcessor(i Instruction) (*Processor, error) {
 
 	return &Processor{
 		Instruction:  i,
-		interpolator: itp,
+		Interpolator: itp,
 	}, nil
 }

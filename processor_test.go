@@ -25,30 +25,30 @@ func TestProcessor(t *testing.T) {
 		m := NearestNeighbor
 		i := Instruction{Width: 100, Interpolation: m}
 		p, _ := NewProcessor(i)
-		if _, ok := p.interpolator.(*nearestNeighbor); !ok {
-			t.Errorf("got %T, want %T", p.interpolator, &nearestNeighbor{})
+		if _, ok := p.Interpolator.(*nearestNeighbor); !ok {
+			t.Errorf("got %T, want %T", p.Interpolator, &nearestNeighbor{})
 		}
 
 		m = Bilinear
 		i = Instruction{Width: 100, Interpolation: m}
 		p, _ = NewProcessor(i)
-		if _, ok := p.interpolator.(*bilinear); !ok {
-			t.Errorf("got %T, want %T", p.interpolator, &bilinear{})
+		if _, ok := p.Interpolator.(*bilinear); !ok {
+			t.Errorf("got %T, want %T", p.Interpolator, &bilinear{})
 		}
 
 		m = Bicubic
 		i = Instruction{Width: 100, Interpolation: m}
 		p, _ = NewProcessor(i)
-		if _, ok := p.interpolator.(*bicubic); !ok {
-			t.Errorf("got %T, want %T", p.interpolator, &bicubic{})
+		if _, ok := p.Interpolator.(*bicubic); !ok {
+			t.Errorf("got %T, want %T", p.Interpolator, &bicubic{})
 		}
 	})
 
 	t.Run("if omitted interpolation method, use bilinear as default", func(t *testing.T) {
 		i := Instruction{Width: 100}
 		p, _ := NewProcessor(i)
-		if _, ok := p.interpolator.(*bilinear); !ok {
-			t.Errorf("got %T, want %T", p.interpolator, &bilinear{})
+		if _, ok := p.Interpolator.(*bilinear); !ok {
+			t.Errorf("got %T, want %T", p.Interpolator, &bilinear{})
 		}
 	})
 

@@ -89,8 +89,8 @@ func TestBiCubic(t *testing.T) {
 		src := image.NewRGBA(image.Rect(0, 0, 3, 3))
 		dst := image.NewRGBA(image.Rect(0, 0, 10, 10))
 		err := bc.interpolate(src, dst)
-		if err != ErrBilinearSrcImageTooSmall {
-			t.Errorf("got %v, want %v", err, ErrBilinearSrcImageTooSmall)
+		if err != ErrBicubicSrcImageTooSmall {
+			t.Errorf("got %v, want %v", err, ErrBicubicSrcImageTooSmall)
 		}
 	})
 }
