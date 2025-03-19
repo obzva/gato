@@ -115,14 +115,15 @@ func (bl *bilinear) interpolate(src, dst *image.RGBA) error {
 				edgeX := transX < 0 || transX > float64(srcW-1)
 				edgeY := transY < 0 || transY > float64(srcH-1)
 
-				var interpolatedColor color.RGBA
-
 				// meaning of prefix
 				// n: nearest (largest integer value no larger than ...)
 				// l: left
 				// r: right
 				// t: top
 				// b: bottom
+				// i: interpolated
+
+				var iColor color.RGBA
 
 				// use just one nearest surrounding point
 				if edgeX && edgeY {
@@ -141,7 +142,7 @@ func (bl *bilinear) interpolate(src, dst *image.RGBA) error {
 						nY = srcH - 1
 					}
 
-					interpolatedColor = src.RGBAAt(nX, nY)
+					iColor = src.RGBAAt(nX, nY)
 				} else if edgeX { // use two surrounding points (only y-axis)
 					var nX float64
 					if transX < 0 {
@@ -167,7 +168,7 @@ func (bl *bilinear) interpolate(src, dst *image.RGBA) error {
 
 					iR, iG, iB, iA := bl.internalDivision(&pR, &pG, &pB, &pA, nY, transY)
 
-					interpolatedColor = color.RGBA{clamp(iR), clamp(iG), clamp(iB), clamp(iA)}
+					iColor = color.RGBA{clamp(iR), clamp(iG), clamp(iB), clamp(iA)}
 				} else if edgeY { // use two surrounding points (only x-axis)
 					var nY float64
 
@@ -194,7 +195,7 @@ func (bl *bilinear) interpolate(src, dst *image.RGBA) error {
 
 					iR, iG, iB, iA := bl.internalDivision(&pR, &pG, &pB, &pA, nX, transX)
 
-					interpolatedColor = color.RGBA{clamp(iR), clamp(iG), clamp(iB), clamp(iA)}
+					iColor = color.RGBA{clamp(iR), clamp(iG), clamp(iB), clamp(iA)}
 				} else { // use four surrounding points (both x-axis and y-axis)
 					nX := math.Floor(transX)
 					nY := math.Floor(transY)
@@ -224,9 +225,9 @@ func (bl *bilinear) interpolate(src, dst *image.RGBA) error {
 
 					iR, iG, iB, iA := bl.internalDivision(&tmpR, &tmpG, &tmpB, &tmpA, nY, transY)
 
-					interpolatedColor = color.RGBA{clamp(iR), clamp(iG), clamp(iB), clamp(iA)}
+					iColor = color.RGBA{clamp(iR), clamp(iG), clamp(iB), clamp(iA)}
 				}
-				dst.Set(x, y, interpolatedColor)
+				dst.Set(x, y, iColor)
 			}
 		}(i*chunkSize, (i+1)*chunkSize)
 	}

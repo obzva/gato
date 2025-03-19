@@ -34,22 +34,6 @@ func TestNearestNeighbor(t *testing.T) {
 	}
 }
 
-func BenchmarkNearestNeighbor(b *testing.B) {
-	dim := 800
-	scale := 2
-	src := image.NewRGBA(image.Rect(0, 0, dim, dim))
-	for y := range dim {
-		for x := range dim {
-			src.Set(x, y, color.RGBA{})
-		}
-	}
-	dst := image.NewRGBA(image.Rect(0, 0, dim*scale, dim*scale))
-	nn := &nearestNeighbor{}
-	for b.Loop() {
-		_ = nn.interpolate(src, dst)
-	}
-}
-
 func TestInternalDivision(t *testing.T) {
 	t.Run("return correct values", func(t *testing.T) {
 		bl := &bilinear{}
@@ -80,22 +64,6 @@ func TestInternalDivision(t *testing.T) {
 			t.Errorf("got %v, want %v", err, ErrBilinearSrcImageTooSmall)
 		}
 	})
-}
-
-func BenchmarkBilinear(b *testing.B) {
-	dim := 800
-	scale := 2
-	src := image.NewRGBA(image.Rect(0, 0, dim, dim))
-	for y := range dim {
-		for x := range dim {
-			src.Set(x, y, color.RGBA{})
-		}
-	}
-	dst := image.NewRGBA(image.Rect(0, 0, dim*scale, dim*scale))
-	bl := &bilinear{}
-	for b.Loop() {
-		_ = bl.interpolate(src, dst)
-	}
 }
 
 // func TestCatmullRomSpline(t *testing.T) {
