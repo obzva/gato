@@ -3,6 +3,7 @@ package gato
 import (
 	"image"
 	"image/color"
+	"math"
 	"testing"
 )
 
@@ -21,7 +22,7 @@ func TestNearestNeighbor(t *testing.T) {
 	}
 	dst := image.NewRGBA(image.Rect(0, 0, dim*scale, dim*scale))
 	nn := &nearestNeighbor{}
-	nn.interpolate(src, dst)
+	_ = nn.interpolate(src, dst)
 
 	for y := range dim * scale {
 		for x := range dim * scale {
@@ -66,34 +67,14 @@ func TestInternalDivision(t *testing.T) {
 	})
 }
 
-// func TestCatmullRomSpline(t *testing.T) {
-// 	bc := &bicubic{}
-// 	tests := []struct {
-// 		name string
-// 		u    float64
-// 		p    [4]float64
-// 		want float64
-// 	}{
-// 		{
-// 			name: "Test middle point interpolation",
-// 			u:    0.5,
-// 			p:    [4]float64{0, 100, 200, 255},
-// 			want: 150,
-// 		},
-// 		{
-// 			name: "Test start point",
-// 			u:    0,
-// 			p:    [4]float64{0, 100, 200, 255},
-// 			want: 100,
-// 		},
-// 	}
+func TestCatmullRomSpline(t *testing.T) {
+	bc := &bicubic{}
+	u := 0.5
+	p := [4]float64{0, 100, 200, 150}
+	want := 159.375
 
-// 	for _, tt := range tests {
-// 		t.Run(tt.name, func(t *testing.T) {
-// 			got := bc.catmullRomSpline(tt.u, &tt.p)
-// 			if math.Abs(got-tt.want) > 0.001 {
-// 				t.Errorf("catmullRomSpline() = %v, want %v", got, tt.want)
-// 			}
-// 		})
-// 	}
-// }
+	got := bc.catmullRomSpline(u, &p)
+	if math.Abs(got-want) > 0.001 {
+		t.Errorf("catmullRomSpline() = %v, want %v", got, want)
+	}
+}

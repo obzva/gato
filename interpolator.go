@@ -239,7 +239,19 @@ func (bl *bilinear) interpolate(src, dst *image.RGBA) error {
 
 type bicubic struct{}
 
-func (b *bicubic) interpolate(src, dst *image.RGBA) error {
+func (bc *bicubic) catmullRomSpline(u float64, p *[4]float64) float64 {
+	u2 := u * u
+	u3 := u2 * u
+
+	term1 := (-p[0] + 3*p[1] - 3*p[2] + p[3]) * u3
+	term2 := (2*p[0] - 5*p[1] + 4*p[2] - p[3]) * u2
+	term3 := (-p[0] + p[2]) * u
+	term4 := 2 * p[1]
+
+	return 0.5 * (term1 + term2 + term3 + term4)
+}
+
+func (bc *bicubic) interpolate(src, dst *image.RGBA) error {
 	return nil
 }
 
