@@ -25,9 +25,7 @@ type Data struct {
 // NewData creates a new Data instance from a file name and a reader.
 // Only jpg/jpeg and png formats are supported.
 // It also creates a new *image.RGBA instance from the reader.
-func NewData(fileName string, r io.ReadCloser) (*Data, error) {
-	defer r.Close()
-
+func NewData(fileName string, r io.Reader) (*Data, error) {
 	// extract name and format from fileName
 	re, err := regexp.Compile(`^(.+)\.([^.]+)$`)
 	if err != nil {

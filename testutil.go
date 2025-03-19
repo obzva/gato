@@ -21,10 +21,6 @@ func (s *stubImageReader) Read(p []byte) (int, error) {
 	return n, nil
 }
 
-func (s *stubImageReader) Close() error {
-	return nil
-}
-
 func newStubImageData() []byte {
 	mockImg := image.NewRGBA(image.Rect(0, 0, 100, 100))
 	b := new(bytes.Buffer)
