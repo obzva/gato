@@ -35,8 +35,8 @@ func TestNearestNeighbor(t *testing.T) {
 	}
 }
 
-func TestInternalDivision(t *testing.T) {
-	t.Run("return correct values", func(t *testing.T) {
+func TestBilinear(t *testing.T) {
+	t.Run("test internalDivision method", func(t *testing.T) {
 		bl := &bilinear{}
 		pR := [2]float64{0, 255}
 		pG := [2]float64{0, 255}
@@ -68,13 +68,29 @@ func TestInternalDivision(t *testing.T) {
 }
 
 func TestCatmullRomSpline(t *testing.T) {
-	bc := &bicubic{}
-	u := 0.5
-	p := [4]float64{0, 100, 200, 150}
-	want := 159.375
 
-	got := bc.catmullRomSpline(u, &p)
-	if math.Abs(got-want) > 0.001 {
-		t.Errorf("catmullRomSpline() = %v, want %v", got, want)
-	}
+}
+
+func TestBiCubic(t *testing.T) {
+	t.Run("test catmullRomSpline method", func(t *testing.T) {
+		bc := &bicubic{}
+		u := 0.5
+		p := [4]float64{0, 100, 200, 150}
+		want := 159.375
+
+		got := bc.catmullRomSpline(u, &p)
+		if math.Abs(got-want) > 0.001 {
+			t.Errorf("catmullRomSpline() = %v, want %v", got, want)
+		}
+	})
+
+	t.Run("return error when source image is too small", func(t *testing.T) {
+		bc := &bicubic{}
+		src := image.NewRGBA(image.Rect(0, 0, 3, 3))
+		dst := image.NewRGBA(image.Rect(0, 0, 10, 10))
+		err := bc.interpolate(src, dst)
+		if err != ErrBilinearSrcImageTooSmall {
+			t.Errorf("got %v, want %v", err, ErrBilinearSrcImageTooSmall)
+		}
+	})
 }
