@@ -28,7 +28,7 @@ func (s *stubImageReader) Close() error {
 func newStubImageData() []byte {
 	mockImg := image.NewRGBA(image.Rect(0, 0, 100, 100))
 	b := new(bytes.Buffer)
-	jpeg.Encode(b, mockImg, nil)
+	_ = jpeg.Encode(b, mockImg, nil)
 	return b.Bytes()
 }
 

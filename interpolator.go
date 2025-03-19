@@ -239,6 +239,14 @@ func (bl *bilinear) interpolate(src, dst *image.RGBA) error {
 
 type bicubic struct{}
 
+// interpolates a value f(v) that function f(t) takes at ordinate t=v
+// for more detail of formula, please refer to https://en.wikipedia.org/wiki/Cubic_Hermite_spline#Interpolation_on_the_unit_interval_with_matched_derivatives_at_endpoints
+// u: fractional part of v
+// p: color values at four points(p_n-1, p_n, p_n+1, p_n+2) for each color channel (RGBA)
+//   - index 0: color values at p_n-1
+//   - index 1: color values at p_n
+//   - index 2: color values at p_n+1
+//   - index 3: color values at p_n+2
 func (bc *bicubic) catmullRomSpline(u float64, p *[4]float64) float64 {
 	u2 := u * u
 	u3 := u2 * u

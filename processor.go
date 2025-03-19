@@ -48,7 +48,10 @@ func (p *Processor) Process(d *Data) (*image.RGBA, error) {
 	rect := image.Rect(0, 0, w, h)
 	rgba := image.NewRGBA(rect)
 
-	p.interpolator.interpolate(d.Image, rgba)
+	err := p.interpolator.interpolate(d.Image, rgba)
+	if err != nil {
+		return nil, err
+	}
 
 	return rgba, nil
 }
