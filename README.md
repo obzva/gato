@@ -17,7 +17,13 @@
 
 ## Usage
 
-Here's a quick example of how to use **gato**:
+### CLI
+
+You can use [gato-cli](https://github.com/obzva/gato-cli)
+
+### Package
+
+You can also use **gato** as a package for your Go program
 
 ```go
 package main
