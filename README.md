@@ -1,5 +1,7 @@
 # gato
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/obzva/gato)](https://goreportcard.com/report/github.com/obzva/gato)
+
 **gato** is a simple package for image processing operation written in Go
 
 ## Features
