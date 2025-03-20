@@ -1,5 +1,6 @@
 # gato
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/obzva/gato.svg)](https://pkg.go.dev/github.com/obzva/gato)
 [![Go Report Card](https://goreportcard.com/badge/github.com/obzva/gato)](https://goreportcard.com/report/github.com/obzva/gato)
 
 **gato** is a simple package for image processing operation written in Go
