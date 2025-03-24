@@ -3,6 +3,10 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/obzva/gato.svg)](https://pkg.go.dev/github.com/obzva/gato)
 [![Go Report Card](https://goreportcard.com/badge/github.com/obzva/gato)](https://goreportcard.com/report/github.com/obzva/gato)
 
+<p align="center">
+  <img alt="logo" src="https://image-server.dngyng1000.com/images/github-assets/gato/logo.png?w=300">
+</p>
+
 **gato** is a simple package for image processing operation written in Go
 
 ## Features
